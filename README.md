@@ -4,6 +4,6 @@
 
 Email: sbeg@mail.umw.edu
 
-##Info
+## Info
 
 This is a repository for CPSC 350
