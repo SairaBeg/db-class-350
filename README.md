@@ -1,8 +1,8 @@
-#### [db-class-350]
-
+#### db-class-350
+[ ]
 
 ## Saira Beg
 [Email: SairaBeg88@gmail.com]
 
-### [Info]
+### Info
 This is a repository for CPSC 350
