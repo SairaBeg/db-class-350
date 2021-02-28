@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Workshop Server
 
 You are going to be writing Javascript server side code to support people signing up for workshops. A short demo or this is in the RESTful video [here](https://youtu.be/oDEO9-OM4_c?t=9m21s). 
@@ -105,3 +106,6 @@ Else if the attendee is already enrolled in the workshop your app should return:
 Else an entry should be added to the database enrolling the attendee into that workshop and your app should return 
 `{ "attendee": "Emily Blunt", "workshop": "React Fundamentals"}`
 as confirmation.  (replacing Emily Blunt and React Fundamentals with the correct information)
+=======
+
+>>>>>>> 1a8fd9e20a8d9ceb15275aa9f4fc0231b1bfa7ee
