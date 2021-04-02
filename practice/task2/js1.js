@@ -1,6 +1,6 @@
 const assert = require('assert').strict;
 
-const phonebook = [{name: 'Ann', phone: '575.580.1400', role: 'Developer'}, 
+const book = [{name: 'Ann', phone: '575.580.1400', role: 'Developer'}, 
                    {name: 'Ben', phone: '575.641.4041', role: 'Manager'}, 
                    {name: 'Clara', phone: '512.717.5690', role: 'Developer'},
                    {name: 'Dan', phone: '512.444.1496', role: 'DevOps'}, 
@@ -33,7 +33,13 @@ const staff = [{name: 'Stephen Davies', role: "Professor",  department: "Compute
 */
 
 const getNumber = (person, book) => {
-    // TO DO
+    for(var i = 1; i<book.length; i++){
+        if(book[i].name ==person){
+           
+            return book[i].phone;
+        }
+    }
+
     return ("not found");
 }
 
@@ -51,8 +57,17 @@ const getNumber = (person, book) => {
 
 const find = (role, phonebook) => {
     let answer = [];
-    // TODO
-    return answer
+    let freeIndex = 0;
+
+    for(var i = 0; i<phonebook.length; i++){
+        if(phonebook[i].role ==role){
+           let newObj = {'employee':phonebook[i].name};
+         answer[freeIndex] = newObj;
+         freeIndex++;
+        }
+    }
+
+ return answer
 }
 
 
@@ -73,26 +88,94 @@ const find = (role, phonebook) => {
 */
 const roles = (book) => {
     let answer = {};
-    // TODO
-    return answer;
+    let dev =[];
+    let devInd= 0;
+    let manager = [];
+    let managerInd = 0;
+    let devOps = [];
+    let devOpsInd = 0;
+    let marketing =[];
+    let marketingInd =0;
+    let sales = [];
+    let salesInd= 0;
+
+    if(book[0].role =='Developer'){
+    for(var i = 0; i<book.length; i++){
+
+        if(book[i].role =='Developer'){
+         
+dev[devInd]   =book[i].name;
+         
+         devInd++;
+        }else if (book[i].role == 'Manager'){
+            manager[managerInd] =book[i].name;
+            managerInd++;
+        }else if (book[i].role == 'DevOps'){
+            devOps[devOpsInd] =book[i].name;
+            devOpsInd++;
+        }   else if (book[i].role == 'Marketing'){
+                marketing[marketingInd] = book[i].name;
+                marketingInd++;
+        }else if (book[i].role == 'Sales'){
+            sales[salesInd] =book[i].name;
+            salesInd++;
+
+
+    }
 }
 
-let answer = getNumber('Clara', phonebook);
+answer['Developer']= dev;
+answer['Manager']= manager;
+answer['DevOps']= devOps;
+answer['Marketing']= marketing;
+answer['Sales']= sales;
+
+
+    return answer;
+
+    }else{
+
+for(var i = 0; i<book.length; i++){
+
+        if(book[i].role =='Professor'){
+         
+dev[devInd]   =book[i].name;
+
+    }  else if (book[i].role == 'Chair'){
+        manager[managerInd] =book[i].name;
+        managerInd++;
+    }else if (book[i].role == 'Adjunct'){
+        devOps[devOpsInd] =book[i].name;
+        devOpsInd++;
+
+}
+}
+
+answer['Professor']= dev;
+answer['Chair']= manager;
+answer['Adjunct']= devOps;
+    return answer;
+
+
+    }
+}
+
+let answer = getNumber('Clara', book);
 assert.equal(answer, '512.717.5690');
 console.log(answer);
-answer = getNumber('Sam', phonebook);
+answer = getNumber('Sam', book);
 assert.equal(answer, 'not found');
 console.log(answer);
 console.log("GETNUMBER PASSED ALL TESTS\n");
 
-answer = find("Developer", phonebook);
+answer = find("Developer", book);
 console.log(answer);
 assert.equal(answer.filter(function(item){ if (item.employee == 'Ann') return item})[0].employee, 'Ann')
 assert.equal(answer.filter(function(item){ if (item.employee == 'Clara') return item})[0].employee, 'Clara')
 assert.equal(answer.filter(function(item){ if (item.employee == 'Fiona') return item})[0].employee, 'Fiona')
 console.log("FIND FUNCTION PASSED TESTS\n");
 
-answer = roles(phonebook);
+answer = roles(book);
 console.log(answer);
 assert(answer.Developer.includes("Ann"));
 assert(answer.Manager.includes("Erica"));
