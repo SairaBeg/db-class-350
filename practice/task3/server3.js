@@ -62,10 +62,15 @@ app.get("/listAll", (req, res) => {
 app.get('/search', (req, res) => {
     let searchTerm = req.query.q;
     console.log(`Search for ${searchTerm}`);
-    
-    // TODO
-
-    res.json({});
+    for(var i = 0; i<campgrounds.length; i++){
+        
+         if (searchTerm == campgrounds[i].name){
+             
+            
+            return res.json(campgrounds[i]);
+         }
+        }
+    return console.long('Not found');
 })
 
 
@@ -118,8 +123,17 @@ app.get('/search', (req, res) => {
 
 */
 app.get('/fit', (req, res) => {
+    let length = req.query.length;
+    let results= [];
 
-    // TO DO
+    for(var i = 0; i<campgrounds.length; i++){
+        if (length < campgrounds[i].lengthLimit){
+            results.push({campground: campgrounds[i].name, location: campgrounds[i].town, maxLength: campgrounds[i].lengthLimit});
+//add that entry to the array
+
+        }
+
+    }
 
     res.json({campgrounds: results});
 })
@@ -157,8 +171,33 @@ app.get('/fit', (req, res) => {
     ]
 }
 */
+app.get('/elevation', (req, res) => {
+    let altitude = req.query.altitude;
+    let direction= req.query.direction;
+    let results= [];
+ if (direction == 'higher'){
+    for(var i = 0; i<campgrounds.length; i++){
+        if (altitude < campgrounds[i].elevation){
 
-  // TO DO
+       
+            results.push({campground: campgrounds[i].name, elevation: campgrounds[i].elevation, town: campgrounds[i].town});
+
+ }
+        }
+    }else if (direction == 'lower'){
+        for(var i = 0; i<campgrounds.length; i++){
+            if (altitude > campgrounds[i].elevation){
+                results.push({campground: campgrounds[i].name, elevation: campgrounds[i].elevation, town: campgrounds[i].town});
+
+            }
+        }
+
+    }
+
+    
+
+    res.json({campgrounds: results});
+})
 
 
 
