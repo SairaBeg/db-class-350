@@ -293,9 +293,6 @@ if (response.rowCount == 0){
      
 });
 
-
-
-
     /*
    ///
   ///  ADD CAMPGROUND /addCampground Post Request
@@ -308,12 +305,10 @@ if (response.rowCount == 0){
       
 
 */
-
 // TO DO
 app.post("/addCampground", async (req, res) => {
-    const n = req.body.name;
-
-    const location = req.body.location;
+    const N = req.body.name;
+    const L = req.body.location;
     const leng = req.body.maxlength;
     const elev = req.body.elevation;
     const site = req.body.sites;
@@ -321,15 +316,27 @@ app.post("/addCampground", async (req, res) => {
 
 try{
     
-const template = "IF NOT EXISTS(SELECT name, location from campgrounds WHERE name =n AND location =location) VALUES($1, $2) BEGIN INSERT INTO campgrounds (name, location, maxlength, elevation, sites, padtype) VALUES ($1, $2, $3, $4, $5, $6) END";
+const template = "SELECT * from campgrounds WHERE name = $1 AND location = $2";
 
-const response = await pool.query(template, [n, location], [n, location, leng, elev, site, pad]);
+const response = await pool.query(template, [N, L]);
 
-
-
-res.json({status: "added"});
-}catch (err){
+//if name and location already exists
+if(response.rowCount != 0){
     res.json({status: "campground already in database"});
+
+} else if (response.rowCount ==0){
+//else if Name and Location doesn't exist
+//INSERT the entry
+    const template2 = "INSERT INTO campgrounds (name, location, maxlength, elevation, sites, padtype) VALUES ($1, $2, $3, $4, $5, $6)";
+
+    const response1 = await pool.query(template2,  [N, L, leng, elev, site, pad]);
+res.json({status: "added"});
+}
+
+}catch (err){
+    console.log("Error.")
+    console.log(err);
+ 
 }
 
 })
