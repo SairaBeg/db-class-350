@@ -88,8 +88,8 @@ app.post("/addAttraction", async (req, res) => {
 
 app.get("/listAll", async (req, res) => {
     try {
-        // TO DO: write the query below
-        const query = "TO DO";
+        
+        const query = "SELECT name FROM campgrounds";
         const dbresponse = await pool.query(query);
         const results = dbresponse.rows.map((row) => {return row.name});
         res.json({campgrounds: results})
@@ -118,10 +118,24 @@ app.get('/search', async (req, res) => {
     
     // TODO
     try {
-       
+        const template = "SELECT name, location, maxlength FROM campgrounds WHERE name = $1";
 
-        
-        
+        const response = await pool.query(template, [searchTerm]);
+
+const results = response.rows.map(function(row) {
+    return {campground: row.name,
+    location: row.location,
+    maxlength: row.maxlength
+}
+})
+
+//if no results are returned
+        if (response.rowCount == 0){
+            res.json({status: "not found", searchTerm: req.query.name});
+        }else{
+         res.json({campgrounds: results});
+
+        }
     } catch (err){
         console.log(err);
     }
@@ -178,10 +192,37 @@ app.get('/search', async (req, res) => {
    objects in the array have the keys 'campground', 'location', and 'maxLength'.
 
 */
+ 
+    // TODO
+ app.get('/fit', async (req, res) => {
+    let input = req.query.length;   
 
-// TO DO
+    try {
+        const template = "SELECT name, location, maxlength FROM campgrounds WHERE maxlength > $1";
+
+        const response = await pool.query(template, [input]);
 
 
+const results = response.rows.map(function(row) {
+    return {campground: row.name,
+    location: row.location,
+    maxLength: row.maxlength
+}
+})
+
+//if no results are returned
+        if (response.rowCount == 0){
+            res.json({status: "not found", searchTerm: req.query.name});
+        }else{
+         res.json({campgrounds: results});
+
+        }
+    } catch (err){
+        console.log(err);
+    }
+
+
+})
 
 /*
     elevation get request. This request takes 2 parameters:
@@ -217,16 +258,35 @@ app.get('/search', async (req, res) => {
 */
 
 app.get('/elevation', async (req, res) => {
+    
+    let input = req.query.altitude;
+    
     let query = '';
+  try {   
     if (req.query.direction == 'lower'){
-        query = "TO DO";
+        query = "SELECT name, elevation, location FROM campgrounds WHERE elevation < $1";
+
+
     } else {
-        query =  "TO DO";
+        query =  "SELECT name, elevation, location FROM campgrounds WHERE elevation > $1";
     }
-    try {
+   
         // TO DO
+const response = await pool.query(query, [input]);
+const results = response.rows.map(function(row) {
+    return {campground: row.name,
+    elevation: row.elevation,
+    town: row.location
+}
+})
+//if no results are returned
+if (response.rowCount == 0){
+    console.log(results);
+    res.json({status: "not found", searchTerm: req.query.name});
+}else{
+ res.json({campgrounds: results});
 
-
+}
     } catch (err){
          console.log(err);
     }
@@ -250,7 +310,29 @@ app.get('/elevation', async (req, res) => {
 */
 
 // TO DO
+app.post("/addCampground", async (req, res) => {
+    const n = req.body.name;
 
+    const location = req.body.location;
+    const leng = req.body.maxlength;
+    const elev = req.body.elevation;
+    const site = req.body.sites;
+    const pad = req.body.pad;
+
+try{
+    
+const template = "IF NOT EXISTS(SELECT name, location from campgrounds WHERE name =n AND location =location) VALUES($1, $2) BEGIN INSERT INTO campgrounds (name, location, maxlength, elevation, sites, padtype) VALUES ($1, $2, $3, $4, $5, $6) END";
+
+const response = await pool.query(template, [n, location], [n, location, leng, elev, site, pad]);
+
+
+
+res.json({status: "added"});
+}catch (err){
+    res.json({status: "campground already in database"});
+}
+
+})
 
 
 
@@ -261,4 +343,4 @@ app.listen(app.get("port"), () => {
 	console.log(`Find the server at http://localhost:${app.get("port")}`);
 	 // eslint-disable-line no-console
 });
-Finally we are going to run the code with
+//Finally we are going to run the code with
