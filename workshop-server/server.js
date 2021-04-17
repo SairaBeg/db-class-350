@@ -26,13 +26,18 @@ const pool = new Pool(config);
 app.post("/api", async (req, res) => {
   const ws = req.body.workshop;
   const att = req.body.attendee;
-
+  
+ //if parameters are missing 
+if(ws == undefined || att == undefined){
+  const data2 = { error: "parameters not given" };
+      res.json(data2);
+}
 
   try {
     const template = "SELECT * from works WHERE workshop = $1 AND attendee = $2";
 
     const response = await pool.query(template, [ws, att]);
-
+//if the entry already exists
     if (response.rowCount != 0) {
       const data1 = { error: "attendee already enrolled" };
       res.json(data1);
