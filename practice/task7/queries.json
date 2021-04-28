@@ -1,0 +1,12 @@
+{
+  "query1": "SELECT actor.name as actor, movie.title as film FROM actor JOIN casting ON actor.id = casting.actorid JOIN movie ON movie.id = casting.movieid WHERE actor.name = 'Nicolas Cage' ORDER BY movie.title",
+  "query2": "SELECT movie.title AS film, movie.score AS rating FROM movie JOIN casting ON movie.id = casting.movieid JOIN actor ON actor.id = casting.actorid WHERE actor.name = 'Sandra Bullock' ORDER BY movie.score desc limit 1",
+  "query3": "SELECT actor.name as actor FROM movie JOIN casting ON movie.id = casting.movieid JOIN actor ON actor.id = casting.actorid WHERE movie.title = 'Blade Runner' ORDER BY actor.name",
+  "query4": "SELECT actor.name as director, movie.title as film FROM movie JOIN casting ON movie.id = casting.movieid JOIN actor ON actor.id = casting.actorid WHERE movie.director = actor.id ORDER BY actor.name, movie.title",
+  "query5": "SELECT DISTINCT actor.name AS actor, count(movie.title) AS films FROM movie JOIN casting ON movie.id = casting.movieid JOIN actor ON actor.id = casting.actorid GROUP BY actor.name HAVING COUNT(movie.title) >= 10 ORDER BY count(movie.title) desc, actor.name",
+  "query6": "SELECT DISTINCT actor.name as actors from actor join casting on actor.id = casting.actorid join movie on movie.id = casting.movieid where casting.actorid in (select actorid from casting where movieid in(select movieid from casting where actorid in (select id from actor where name = 'Michelle Pfeiffer'))) and name not like 'Michelle Pfeiffer'order by actor.name",
+  "query7": "SELECT artist.name AS artist, COUNT(album.title) AS albums FROM artist JOIN album on album.artistid = artist.artistid GROUP BY (artist.name) HAVING COUNT (album.title) >= 5 ORDER BY COUNT(album.title) DESC LIMIT 5",
+  "query8": "SELECT album.title AS album from album JOIN artist on album.artistid = artist.artistid WHERE artist.name = 'Santana' ORDER BY album.title",
+  "query9": "SELECT e.firstname as employee_firstname, e.lastname as employee_lastname, m.firstname manager_firstname, m.lastname as manager_lastname FROM employee e JOIN employee m ON e.reportsto = m.employeeid WHERE e.reportsto IS NOT NULL ORDER BY e.lastname, e.firstname",
+  "query10": "SELECT artist.name AS artist, sum(invoiceline.quantity) AS tracks_sold FROM artist JOIN album ON artist.artistid = album.artistid join track on album.albumid = track.albumid join invoiceline on track.trackid = invoiceline.trackid GROUP BY artist.name ORDER BY SUM(invoiceline.quantity) DESC LIMIT 1"
+}
