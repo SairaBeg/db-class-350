@@ -30,10 +30,10 @@ CREATE TABLE classtime(
 );
 
 CREATE TABLE sched(
-	courseid integer REFERENCES course(courseid),
-	instid integer REFERENCES instructor(instid),
-    buildid integer REFERENCES building(buildid),
-	classtimeid integer REFERENCES classtime(classtimeid),
+	FOREIGN KEY (courseid)  REFERENCES course(courseid),
+	FOREIGN KEY (instid)  REFERENCES instructor(instid),
+    FOREIGN KEY (buildid)  REFERENCES building(buildid),
+	FOREIGN KEY (classtimeid)  REFERENCES classtime(classtimeid),
 	PRIMARY KEY (courseid, instid, buildid, classtimeid)
 );
 

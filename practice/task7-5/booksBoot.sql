@@ -27,9 +27,9 @@ hq VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE deal(
-	bookid integer REFERENCES Book(bookid),
-	authorid integer REFERENCES Author(authorid),
-	pubid integer REFERENCES Pub(pubid),
+	FOREIGN KEY (bookid) REFERENCES Book(bookid),
+	FOREIGN KEY (authorid) REFERENCES Author(authorid),
+	FOREIGN KEY (pubid) REFERENCES Pub(pubid),
 	PRIMARY KEY (bookid, authorid, pubid)
 );
 
